@@ -23,6 +23,10 @@ class ABEL():
                 self.now_lr = self.warmup_lr + (self.init_lr -self.warmup_lr) * (now_step_num) / float(self.warmup_steps)
                 return self.now_lr
 
+        if now_step_num > self.epoc_step * self.last_decay_epoc:
+            self.now_lr = self.now_lr * self.decay_factor
+            return self.now_lr
+
         if now_step_num % 200 != 0:
             return self.now_lr
 
@@ -37,10 +41,4 @@ class ABEL():
                 (self.all_wnorm[-2] > self.all_wnorm[-1]):
             self.now_lr = self.now_lr * self.decay_factor
 
-        if now_step_num > self.epoc_step * self.last_decay_epoc:
-            self.now_lr = self.now_lr * self.decay_factor
-
         return self.now_lr
-
-
-
